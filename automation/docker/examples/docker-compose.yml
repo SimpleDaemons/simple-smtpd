@@ -1,0 +1,33 @@
+version: '3.8'
+
+services:
+  simple-smtpd:
+    image: simple-smtpd:latest
+    container_name: simple-smtpd
+    ports:
+      - "25:25/tcp"
+    volumes:
+      - ./config:/etc/simple-smtpd:ro
+      - ./data:/var/lib/simple-smtpd
+      - ./logs:/var/log/simple-smtpd
+    environment:
+      - SIMPLE-SMTPD_CONFIG=/etc/simple-smtpd/simple-smtpd.conf
+      - SIMPLE-SMTPD_LOG_LEVEL=info
+      - SIMPLE-SMTPD_BIND_ADDRESS=0.0.0.0
+      - SIMPLE-SMTPD_BIND_PORT=25
+    restart: unless-stopped
+    healthcheck:
+      test: ["CMD", "nc", "-z", "localhost", "25"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+      start_period: 40s
+    networks:
+      - simple-smtpd-network
+
+networks:
+  simple-smtpd-network:
+    driver: bridge
+    ipam:
+      config:
+        - subnet: 172.22.0.0/16
