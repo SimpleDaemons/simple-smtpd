@@ -12,9 +12,9 @@ graph TB
 
     subgraph "SMTP Server"
         Server[simple-smtpd<br/>Main Process]
-        Config[/etc/simple-smtpd/<br/>Configuration]
-        MailQueue[/var/spool/simple-smtpd<br/>Mail Queue]
-        Logs[/var/log/simple-smtpd/<br/>Mail Logs]
+        Config[Configuration<br/>/etc/simple-smtpd/]
+        MailQueue[Mail Queue<br/>/var/spool/simple-smtpd]
+        Logs[Mail Logs<br/>/var/log/simple-smtpd/]
     end
 
     subgraph "System Services"
